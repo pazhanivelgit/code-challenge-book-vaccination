@@ -4,7 +4,7 @@ var db = require('../config/queries');
 
 router.post('/appointment', db.createAppointment);
 
-router.post('/setupcenter', db.setupCenter);
+router.post('/vaccinationcenters', db.setupCenter);
 
 router.get('/centers', db.getCenters);
 

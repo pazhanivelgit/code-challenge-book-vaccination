@@ -5,7 +5,7 @@ const pool = new Pool({
   database: 'postgres',
   password: 'sa',
   port: 5432,
-})
+});
 
 const getCenters = async (req, res) => {
   try {
@@ -36,7 +36,7 @@ const setupCenter = async (req, res) => {
   const userDetails = '[]';
 
   const { rows } = await pool.query(
-    "INSERT INTO mytest.vaccinecenters (centername, maxcapacity, nursedetails, vaccinationdate, userdetails) VALUES ($1,$2,$3,$4,$5) ON CONFLICT ON CONSTRAINT vaccinecenters_un DO update set maxCapacity = $2;",
+    "INSERT INTO mytest.vaccinecenters (centername, maxcapacity, nursedetails, vaccinationdate, userdetails) VALUES ($1,$2,$3,$4,$5) ON CONFLICT ON CONSTRAINT vaccinecenters_un DO update set maxCapacity = $2, nurseDetails=$3;",
     [centerName, maxCapacity, nurseDetails, vaccinationDate, userDetails]
   );
 
@@ -49,7 +49,7 @@ const createAppointment = async (req, res) => {
 
   const { centerName, userDetails, vaccinationDateTime } = req.body;
 
-  let vdate = new Date(vaccinationDateTime).toLocaleDateString(); //'2021-08-26'; //
+  let vdate = new Date(vaccinationDateTime).toLocaleDateString(); 
 
   const fetchQuery = `select maxcapacity, userdetails from mytest.vaccinecenters where centername='${centerName}' and vaccinationdate = '${vdate}'`;
 
